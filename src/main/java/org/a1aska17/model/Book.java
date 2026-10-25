@@ -14,6 +14,11 @@ public class Book {
     private LocalDate startedAtBook;
     private LocalDate finishedAtBook;
     private int ratingBook;
+
+    public void setStatusBook(Status statusBook) {
+        this.statusBook = statusBook;
+    }
+
     private String impressionBook;
     private int percentageReadBook;
 

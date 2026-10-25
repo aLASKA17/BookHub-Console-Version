@@ -14,6 +14,7 @@ public class BookView {
     private void UIMenu() {
         out.println("1) Вывести список книг");
         out.println("2) Добавить новую книгу");
+        out.println("3) Изменить книгу ");
         out.println("3) Удалить книгу");
         out.println("4) Выйти");
         out.print("Выберите пункт меню: ");
@@ -27,6 +28,7 @@ public class BookView {
                 switch (pointMenu) {
                     case 1: bookController.displayBooks(); break;
                     case 2: bookController.createAndAddBook(); break;
+                    case 3: UIMenuChange(); controllerUIMenuChange(); break;
                     case 4: exit(0); break;
                     default: out.println("Такого пункта в меню!");
                 }
@@ -34,6 +36,32 @@ public class BookView {
                 scanner.next();
                 out.println("Введите корректное значение!");
             }
+        }
+    }
+
+    private void UIMenuChange() {
+        out.println("1) Изменить статус книги");
+        //out.println("2) Добавить новую книгу");
+        //out.println("3) Изменить книгу ");
+        //out.println("3) Удалить книгу");
+        out.println("2) Вернуться в основное меню");
+        out.print("Выберите пункт меню: ");
+    }
+
+    private void controllerUIMenuChange() {
+        while (true) {
+           try {
+               UIMenuChange();
+               int pointMenu = scanner.nextInt();
+               switch (pointMenu) {
+                   case 1: bookController.changeStatus(); break;
+                   case 2: UIMenu(); break;
+                   default: out.println("Такого пункта в меню!");
+               }
+           } catch (InputMismatchException ex) {
+               scanner.next();
+               out.println("Введите корректное значение!");
+           }
         }
     }
 }
