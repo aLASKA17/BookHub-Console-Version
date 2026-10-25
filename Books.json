@@ -1,0 +1,14 @@
+[ {
+  "idBook" : 1,
+  "titleBook" : "11|22|63",
+  "authorBook" : "Стивен Кинг",
+  "currentPageBook" : 71,
+  "totalPageBook" : 797,
+  "genreBook" : "SCIENCE_FICTION",
+  "statusBook" : "READING",
+  "startedAtBook" : null,
+  "finishedAtBook" : null,
+  "ratingBook" : 0,
+  "impressionBook" : "",
+  "percentageReadBook" : 0
+} ]
