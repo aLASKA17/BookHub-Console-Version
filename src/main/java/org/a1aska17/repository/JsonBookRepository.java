@@ -22,11 +22,13 @@ public class JsonBookRepository {
             List<Book> books = readFromJsonFile();
             if (book != null) {
                 books.add(book);
+                mapper.registerModule(new JavaTimeModule());
+                mapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+                mapper.writerWithDefaultPrettyPrinter().writeValue(file, books);
+                out.println("Книга добавлена!");
+            } else {
+                out.println("Книга не добавлена!");
             }
-            mapper.registerModule(new JavaTimeModule());
-            mapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-            mapper.writerWithDefaultPrettyPrinter().writeValue(file, books);
-            out.println("Book save!");
         } catch (IOException ex) {
             out.println("Error upon saving: " + ex);
         }
@@ -38,6 +40,8 @@ public class JsonBookRepository {
             if (!file.exists() || file.length() == 0) {
                 return books;
             }
+            mapper.registerModule(new JavaTimeModule());
+            mapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             return mapper.readValue(file, new TypeReference<>() {});
         } catch (IOException ex) {
             out.println("Error upon reading: " + ex);
