@@ -15,8 +15,8 @@ public class BookView {
         out.println("1) Вывести список книг");
         out.println("2) Добавить новую книгу");
         out.println("3) Изменить книгу ");
-        out.println("3) Удалить книгу");
-        out.println("4) Выйти");
+        out.println("4) Удалить книгу");
+        out.println("5) Выйти");
         out.print("Выберите пункт меню: ");
     }
 
@@ -29,7 +29,8 @@ public class BookView {
                     case 1: bookController.displayBooks(); break;
                     case 2: bookController.createAndAddBook(); break;
                     case 3: UIMenuChange(); controllerUIMenuChange(); break;
-                    case 4: exit(0); break;
+                    case 4: bookController.deleteBook(); break;
+                    case 5: exit(0); break;
                     default: out.println("Такого пункта в меню!");
                 }
             } catch (InputMismatchException ex) {

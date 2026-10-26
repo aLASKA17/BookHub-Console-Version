@@ -7,6 +7,7 @@ import org.a1aska17.model.Genre;
 import org.a1aska17.model.Status;
 import org.a1aska17.repository.JsonBookRepository;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -15,6 +16,15 @@ import static java.lang.System.*;
 public class BookController {
     private final JsonBookRepository jsonBookRepository = new JsonBookRepository();
     private final Scanner scanner = new Scanner(in);
+    private List<Book> books = new ArrayList<>();
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
 
     private int checkValueLessThanZero(int value) {
         if (value < 0) {
@@ -135,6 +145,12 @@ public class BookController {
         jsonBookRepository.saveToJsonFile(null);
     }
 
+    public void deleteBook() {
+        displayBooks();
+        books.remove(inputBookId() - 1);
+        jsonBookRepository.saveToJsonFile(books);
+    }
+
     public void createAndAddBook() {
         out.print("Введите название книги: ");
         String titleBook = scanner.nextLine();
@@ -142,11 +158,13 @@ public class BookController {
         String authorBook = scanner.nextLine();
         int totalPage = inputPage();
         Genre genreBook = chooseGenre();
-        jsonBookRepository.saveToJsonFile(new Book(titleBook, authorBook, totalPage, genreBook));
+        books = jsonBookRepository.readFromJsonFile();
+        books.add(new Book(titleBook, authorBook, totalPage, genreBook));
+        jsonBookRepository.saveToJsonFile(books);
     }
 
     public void displayBooks() {
-        List<Book> books = jsonBookRepository.readFromJsonFile();
+        books = jsonBookRepository.readFromJsonFile();
         books.forEach(book -> {
             book.updatePercentageBook(book);
             out.println(book);

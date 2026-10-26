@@ -17,18 +17,11 @@ public class JsonBookRepository {
     private final ObjectMapper mapper = new ObjectMapper();
     private final File file = new File("Books.json");
 
-    public void saveToJsonFile(Book book) {
+    public void saveToJsonFile(List<Book> books) {
         try {
-            List<Book> books = readFromJsonFile();
-            if (book != null) {
-                books.add(book);
-                mapper.registerModule(new JavaTimeModule());
-                mapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-                mapper.writerWithDefaultPrettyPrinter().writeValue(file, books);
-                out.println("Книга добавлена!");
-            } else {
-                out.println("Книга не добавлена!");
-            }
+            mapper.registerModule(new JavaTimeModule());
+            mapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            mapper.writerWithDefaultPrettyPrinter().writeValue(file, books);
         } catch (IOException ex) {
             out.println("Error upon saving: " + ex);
         }
