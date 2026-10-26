@@ -19,7 +19,7 @@ public enum Status {
         this.id = generateId();
     }
     private int generateId() {
-        return countId++;
+        return ++countId;
     }
 
     public String getTitleStatus() {

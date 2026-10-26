@@ -69,7 +69,7 @@ public enum Genre {
     }
 
     private int generateId() {
-       return countId++;
+       return ++countId;
     }
 
     public String getTitle() {

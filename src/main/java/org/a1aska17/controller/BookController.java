@@ -132,6 +132,7 @@ public class BookController {
         if (book != null) {
             book.setStatusBook(statusBook);
         }
+        jsonBookRepository.saveToJsonFile(null);
     }
 
     public void createAndAddBook() {

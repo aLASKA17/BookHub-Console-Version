@@ -1,9 +1,11 @@
 package org.a1aska17.model;
 
+import org.a1aska17.repository.JsonBookRepository;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Book {
-    private static int count = 1;
     private int idBook;
     private String titleBook;
     private String authorBook;
@@ -15,15 +17,28 @@ public class Book {
     private LocalDate finishedAtBook;
     private int ratingBook;
 
+    public LocalDateTime getUpdatedAtBook() {
+        return updatedAtBook;
+    }
+
+    public LocalDateTime getCreatedAtBook() {
+        return createdAtBook;
+    }
+
+    private LocalDateTime createdAtBook;
+    private LocalDateTime updatedAtBook;
+
     public void setStatusBook(Status statusBook) {
         this.statusBook = statusBook;
+        this.updatedAtBook = LocalDateTime.now();
     }
 
     private String impressionBook;
     private int percentageReadBook;
+    private final JsonBookRepository jsonBookRepository = new JsonBookRepository();
 
     private int generateId() {
-        return count++;
+        return jsonBookRepository.readFromJsonFile().size() + 1;
     }
 
     public int getIdBook() {
@@ -85,6 +100,8 @@ public class Book {
         this.ratingBook = 0;
         this.impressionBook = "";
         this.percentageReadBook = getPercentageReadBook();
+        this.createdAtBook = LocalDateTime.now();
+        this.updatedAtBook = LocalDateTime.now();
     }
 
     public void setPercentageReadBook(int percentageReadBook) {

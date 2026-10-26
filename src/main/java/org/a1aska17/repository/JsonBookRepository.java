@@ -1,5 +1,6 @@
 package org.a1aska17.repository;
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.a1aska17.model.Book;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -19,7 +20,11 @@ public class JsonBookRepository {
     public void saveToJsonFile(Book book) {
         try {
             List<Book> books = readFromJsonFile();
-            books.add(book);
+            if (book != null) {
+                books.add(book);
+            }
+            mapper.registerModule(new JavaTimeModule());
+            mapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             mapper.writerWithDefaultPrettyPrinter().writeValue(file, books);
             out.println("Book save!");
         } catch (IOException ex) {
