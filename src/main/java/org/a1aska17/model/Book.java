@@ -13,6 +13,55 @@ public class Book {
     private int totalPageBook;
     private Genre genreBook;
     private Status statusBook;
+
+    public String getTitleBook() {
+        return titleBook;
+    }
+
+    public String getAuthorBook() {
+        return authorBook;
+    }
+
+    public int getCurrentPageBook() {
+        return currentPageBook;
+    }
+
+    public int getTotalPageBook() {
+        return totalPageBook;
+    }
+
+    public Genre getGenreBook() {
+        return genreBook;
+    }
+
+    public Status getStatusBook() {
+        return statusBook;
+    }
+
+    public LocalDate getStartedAtBook() {
+        return startedAtBook;
+    }
+
+    public LocalDate getFinishedAtBook() {
+        return finishedAtBook;
+    }
+
+    public int getRatingBook() {
+        return ratingBook;
+    }
+
+    public LocalDateTime getCreatedAtBook() {
+        return createdAtBook;
+    }
+
+    public LocalDateTime getUpdatedAtBook() {
+        return updatedAtBook;
+    }
+
+    public String getImpressionBook() {
+        return impressionBook;
+    }
+
     private LocalDate startedAtBook;
     private LocalDate finishedAtBook;
     private int ratingBook;

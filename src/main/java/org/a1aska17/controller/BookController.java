@@ -25,6 +25,7 @@ public class BookController {
         return value;
     }
 
+    //TODO: Подумать над каким-то единным форматом id для книг
     private void updateIdBook() {
         books = jsonBookRepository.readFromJsonFile();
         for (int i = 1; i < books.size()+1; i++) {
@@ -84,6 +85,8 @@ public class BookController {
         return totalPageBook;
     }
 
+
+    // TODO: Придумать как объединить методы ввода жанра и статуса в один
     private Status chooseStatus() {
         for (Status status : Status.values()) {
             out.println(status.getId() + ") " + status.getTitleStatus());
@@ -142,7 +145,10 @@ public class BookController {
         if (book != null) {
             book.setStatusBook(statusBook);
         }
-        jsonBookRepository.saveToJsonFile(null);
+        books.remove(idBook-1);
+        books.add(book);
+        updateIdBook();
+        jsonBookRepository.saveToJsonFile(books);
     }
 
     public void deleteBook() {
@@ -166,10 +172,14 @@ public class BookController {
 
     public void displayBooks() {
         books = jsonBookRepository.readFromJsonFile();
-        books.forEach(book -> {
-            book.updatePercentageBook(book);
-            out.println(book);
-        });
+        if (books == null || books.isEmpty()) {
+            out.println("Список книг пуст!");
+        } else {
+            books.forEach(book -> {
+                book.updatePercentageBook(book);
+                out.println(book);
+            });
+        }
     }
 
 }
