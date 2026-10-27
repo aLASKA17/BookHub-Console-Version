@@ -30,21 +30,6 @@
   "percentageReadBook" : 0
 }, {
   "idBook" : 3,
-  "titleBook" : "Кладбище домашних животных",
-  "authorBook" : "Стивен Кинг",
-  "currentPageBook" : 0,
-  "totalPageBook" : 864,
-  "genreBook" : "HORROR",
-  "statusBook" : "PAUSE",
-  "startedAtBook" : null,
-  "finishedAtBook" : null,
-  "ratingBook" : 0,
-  "createdAtBook" : "2026-10-26T16:48:10.0465853",
-  "updatedAtBook" : "2026-10-26T16:48:10.0465853",
-  "impressionBook" : "",
-  "percentageReadBook" : 0
-}, {
-  "idBook" : 4,
   "titleBook" : "Атомные привычки",
   "authorBook" : "Джеймс Клир",
   "currentPageBook" : 0,
@@ -56,6 +41,21 @@
   "ratingBook" : 0,
   "createdAtBook" : "2026-10-26T16:49:58.053524",
   "updatedAtBook" : "2026-10-26T16:49:58.053524",
+  "impressionBook" : "",
+  "percentageReadBook" : 0
+}, {
+  "idBook" : 4,
+  "titleBook" : "Великий Гетсби",
+  "authorBook" : "Ф Скотт Фиджеральд",
+  "currentPageBook" : 0,
+  "totalPageBook" : 989,
+  "genreBook" : "OTHER",
+  "statusBook" : "PAUSE",
+  "startedAtBook" : null,
+  "finishedAtBook" : null,
+  "ratingBook" : 0,
+  "createdAtBook" : "2026-10-27T11:01:21.2097127",
+  "updatedAtBook" : "2026-10-27T11:01:21.2097127",
   "impressionBook" : "",
   "percentageReadBook" : 0
 } ]

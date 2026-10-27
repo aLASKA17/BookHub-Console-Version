@@ -16,15 +16,6 @@ public class Book {
     private LocalDate startedAtBook;
     private LocalDate finishedAtBook;
     private int ratingBook;
-
-    public LocalDateTime getUpdatedAtBook() {
-        return updatedAtBook;
-    }
-
-    public LocalDateTime getCreatedAtBook() {
-        return createdAtBook;
-    }
-
     private LocalDateTime createdAtBook;
     private LocalDateTime updatedAtBook;
 
@@ -37,52 +28,16 @@ public class Book {
     private int percentageReadBook;
     private final JsonBookRepository jsonBookRepository = new JsonBookRepository();
 
+    public void setIdBook(int idBook) {
+        this.idBook = idBook;
+    }
+
     private int generateId() {
         return jsonBookRepository.readFromJsonFile().size() + 1;
     }
 
     public int getIdBook() {
         return idBook;
-    }
-
-    public String getTitleBook() {
-        return titleBook;
-    }
-
-    public String getAuthorBook() {
-        return authorBook;
-    }
-
-    public int getCurrentPageBook() {
-        return currentPageBook;
-    }
-
-    public int getTotalPageBook() {
-        return totalPageBook;
-    }
-
-    public Genre getGenreBook() {
-        return genreBook;
-    }
-
-    public Status getStatusBook() {
-        return statusBook;
-    }
-
-    public LocalDate getStartedAtBook() {
-        return startedAtBook;
-    }
-
-    public LocalDate getFinishedAtBook() {
-        return finishedAtBook;
-    }
-
-    public int getRatingBook() {
-        return ratingBook;
-    }
-
-    public String getImpressionBook() {
-        return impressionBook;
     }
 
     public Book() {}

@@ -18,19 +18,19 @@ public class BookController {
     private final Scanner scanner = new Scanner(in);
     private List<Book> books = new ArrayList<>();
 
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
     private int checkValueLessThanZero(int value) {
         if (value < 0) {
             throw new LessThanZeroException("Значение не может быть меньше 0");
         }
         return value;
+    }
+
+    private void updateIdBook() {
+        books = jsonBookRepository.readFromJsonFile();
+        for (int i = 1; i < books.size()+1; i++) {
+            books.get(i-1).setIdBook(i);
+        }
+        jsonBookRepository.saveToJsonFile(books);
     }
 
     private Book searchBookById(int idBook, List<Book> books) {
@@ -149,6 +149,7 @@ public class BookController {
         displayBooks();
         books.remove(inputBookId() - 1);
         jsonBookRepository.saveToJsonFile(books);
+        updateIdBook();
     }
 
     public void createAndAddBook() {
