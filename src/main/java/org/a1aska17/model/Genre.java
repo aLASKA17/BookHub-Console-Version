@@ -1,6 +1,6 @@
 package org.a1aska17.model;
 
-public enum Genre {
+public enum Genre implements GenreOrStatus{
     FANTASY("Фэнтези"),
     SCIENCE_FICTION("Научная фантастика"),
     DYSTOPIAN("Антиутопия"),

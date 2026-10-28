@@ -4,6 +4,7 @@ import org.a1aska17.exception.ExistsAsARangeException;
 import org.a1aska17.exception.LessThanZeroException;
 import org.a1aska17.model.Book;
 import org.a1aska17.model.Genre;
+import org.a1aska17.model.GenreOrStatus;
 import org.a1aska17.model.Status;
 import org.a1aska17.repository.JsonBookRepository;
 
@@ -25,7 +26,13 @@ public class BookController {
         return value;
     }
 
-    //TODO: Подумать над каким-то единным форматом id для книг
+    private int checkValueExistsAsRange(int value, int range) {
+        if (value < 0 || value > range + 1) {
+            throw new ExistsAsARangeException("Значение должно быть в диапозоне");
+        }
+        return value;
+    }
+
     private void updateIdBook() {
         books = jsonBookRepository.readFromJsonFile();
         for (int i = 1; i < books.size()+1; i++) {
@@ -43,20 +50,12 @@ public class BookController {
         return null;
     }
 
-    private int checkValueExistsAsRange(int value, int range) {
-        if (value < 0 || value > range + 1) {
-            throw new ExistsAsARangeException("Значение должно быть в диапозоне");
-        }
-        return value;
-    }
-
-    private int inputBookId() {
-        List<Book> books = jsonBookRepository.readFromJsonFile();
-        int chooseBookId = -1;
-        while (chooseBookId == -1) {
+    private int inputId(int values, String stringForInput) {
+        int chooseId = -1;
+        while (chooseId == -1) {
             try {
-                out.print("\nВведите ID книги: ");
-                chooseBookId = checkValueExistsAsRange(scanner.nextInt(), books.size());
+                out.print("\nВведите " + stringForInput + ":");
+                chooseId = checkValueExistsAsRange(scanner.nextInt(), values);
                 scanner.nextLine();
             } catch (InputMismatchException ex) {
                 out.println("Введите число!");
@@ -65,7 +64,12 @@ public class BookController {
                 out.println("Введите число, которе находится в дапозоне!");
             }
         }
-        return chooseBookId;
+        return chooseId;
+    }
+
+    private int inputBookId() {
+        List<Book> books = jsonBookRepository.readFromJsonFile();
+        return inputId(books.size(), "ID книги");
     }
 
     private int inputPage() {
@@ -85,53 +89,14 @@ public class BookController {
         return totalPageBook;
     }
 
-
-    // TODO: Придумать как объединить методы ввода жанра и статуса в один
-    private Status chooseStatus() {
-        for (Status status : Status.values()) {
-            out.println(status.getId() + ") " + status.getTitleStatus());
+    private <T extends Enum<T> & GenreOrStatus> T chooseGenreOrStatus(T[] values, String genreOrStatsString) {
+        for (T genreOrStats : values) {
+            out.println(genreOrStats.getId() + ") " + genreOrStats.getTitle());
         }
-        int idStatusBook = -1;
-        while (idStatusBook == -1) {
-           try {
-               out.print("\nВведите id status: ");
-               idStatusBook = checkValueExistsAsRange(scanner.nextInt(), Status.values().length);
-               scanner.nextLine();
-           } catch (InputMismatchException ex) {
-               out.println("Введите число!");
-               scanner.nextLine();
-           } catch (ExistsAsARangeException ex) {
-               out.println("Введите число, которе находится в дапозоне!");
-           }
-        }
-        for (Status status : Status.values()) {
-            if (status.getId() == idStatusBook) {
-                return status;
-            }
-        }
-        return null;
-    }
-
-    private Genre chooseGenre() {
-        for (Genre genre : Genre.values()) {
-            out.println(genre.getId() + ") " + genre.getTitle());
-        }
-        int idGenreBook = -1;
-        while (idGenreBook == -1) {
-            try {
-                out.print("\nВведите id жанра книги: ");
-                idGenreBook = checkValueExistsAsRange(scanner.nextInt(), Genre.values().length);
-                scanner.nextLine();
-            } catch (InputMismatchException ex) {
-                out.println("Введите число!");
-                scanner.next();
-            } catch (ExistsAsARangeException ex) {
-                out.println("Введите число, которе находится в дапозоне!");
-            }
-        }
-        for (Genre genre : Genre.values()) {
-            if (genre.getId() == idGenreBook) {
-                return genre;
+        int idBook = inputId(values.length, genreOrStatsString);
+        for (T genreOrStats : values) {
+            if (genreOrStats.getId() == idBook) {
+                return genreOrStats;
             }
         }
         return null;
@@ -140,7 +105,7 @@ public class BookController {
     public void changeStatus() {
         displayBooks();
         int idBook = inputBookId();
-        Status statusBook = chooseStatus();
+        Status statusBook = chooseGenreOrStatus(Status.values(), "ID статуса");
         Book book = searchBookById(idBook, jsonBookRepository.readFromJsonFile());
         if (book != null) {
             book.setStatusBook(statusBook);
@@ -154,8 +119,8 @@ public class BookController {
     public void deleteBook() {
         displayBooks();
         books.remove(inputBookId() - 1);
-        jsonBookRepository.saveToJsonFile(books);
         updateIdBook();
+        jsonBookRepository.saveToJsonFile(books);
     }
 
     public void createAndAddBook() {
@@ -164,7 +129,7 @@ public class BookController {
         out.print("\nВведите автора книги: ");
         String authorBook = scanner.nextLine();
         int totalPage = inputPage();
-        Genre genreBook = chooseGenre();
+        Genre genreBook = chooseGenreOrStatus(Genre.values(), "ID жанра");
         books = jsonBookRepository.readFromJsonFile();
         books.add(new Book(titleBook, authorBook, totalPage, genreBook));
         jsonBookRepository.saveToJsonFile(books);
@@ -181,5 +146,4 @@ public class BookController {
             });
         }
     }
-
 }

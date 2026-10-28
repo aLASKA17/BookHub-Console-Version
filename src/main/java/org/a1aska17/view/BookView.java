@@ -4,9 +4,7 @@ import org.a1aska17.controller.BookController;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import static java.lang.System.*;
-
 
 public class BookView {
     private final BookController bookController = new BookController();
@@ -57,7 +55,7 @@ public class BookView {
                    default: out.println("Такого пункта в меню!");
                }
            } catch (InputMismatchException ex) {
-               scanner.next();
+               scanner.nextLine();
                out.println("Введите корректное значение!");
            }
         }

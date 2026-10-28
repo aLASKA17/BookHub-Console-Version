@@ -121,7 +121,7 @@ public class Book {
                 ", Общее кол-во страниц = " + totalPageBook +
                 ", Процент прочтения книги = " + percentageReadBook + " %" +
                 ", Жанр книги = " + genreBook.getTitle() +
-                ", Статус книги = " + statusBook.getTitleStatus() +
+                ", Статус книги = " + statusBook.getTitle() +
                 ", Дата начала чтения книги = " + startedAtBook +
                 ", Дата окончания чтения книги = " + finishedAtBook +
                 ", Рейтинг книги = " + ratingBook +
