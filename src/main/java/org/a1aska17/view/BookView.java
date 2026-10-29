@@ -10,6 +10,7 @@ public class BookView {
     private final BookController bookController = new BookController();
     private final Scanner scanner = new Scanner(in);
     private void UIMenu() {
+        out.println("_________________________________________________________________");
         out.println("1) Вывести список книг");
         out.println("2) Добавить новую книгу");
         out.println("3) Изменить книгу ");
@@ -39,8 +40,10 @@ public class BookView {
     }
 
     private void UIMenuChange() {
+        out.println("___________________________________________________________________________");
         out.println("1) Изменить статус книги");
-        out.println("2) Вернуться в основное меню");
+        out.println("2) Изменить жанр");
+        out.println("3) Вернуться в основное меню");
         out.print("Выберите пункт меню: ");
     }
 
@@ -51,7 +54,8 @@ public class BookView {
                int pointMenu = scanner.nextInt();
                switch (pointMenu) {
                    case 1: bookController.changeStatus(); break;
-                   case 2: controllerUIMenu(); break;
+                   case 2: bookController.changeGenre(); break;
+                   case 3: controllerUIMenu(); break;
                    default: out.println("Такого пункта в меню!");
                }
            } catch (InputMismatchException ex) {

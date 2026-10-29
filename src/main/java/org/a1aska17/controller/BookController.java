@@ -41,15 +41,6 @@ public class BookController {
         jsonBookRepository.saveToJsonFile(books);
     }
 
-    private Book searchBookById(int idBook, List<Book> books) {
-        for (Book book : books) {
-            if (book.getIdBook() == idBook) {
-                return book;
-            }
-        }
-        return null;
-    }
-
     private int inputId(int values, String stringForInput) {
         int chooseId = -1;
         while (chooseId == -1) {
@@ -106,14 +97,34 @@ public class BookController {
         displayBooks();
         int idBook = inputBookId();
         Status statusBook = chooseGenreOrStatus(Status.values(), "ID статуса");
-        Book book = searchBookById(idBook, jsonBookRepository.readFromJsonFile());
+        Book book = searchBookById(idBook);
         if (book != null) {
             book.setStatusBook(statusBook);
+            jsonBookRepository.saveToJsonFile(books);
         }
-        books.remove(idBook-1);
-        books.add(book);
-        updateIdBook();
-        jsonBookRepository.saveToJsonFile(books);
+    }
+
+    public void changeGenre() {
+        displayBooks();
+        int idBook = inputBookId();
+        Genre genreBook = chooseGenreOrStatus(Genre.values(), "ID жанра");
+        Book book = searchBookById(idBook);
+        if (book != null) {
+            book.setGenreBook(genreBook);
+            jsonBookRepository.saveToJsonFile(books);
+        }
+    }
+
+    private Book searchBookById(int idBook) {
+        Book book = books.stream()
+                .filter(bookFilter -> bookFilter.getIdBook() == idBook)
+                .findFirst()
+                .orElse(null);
+        if (book == null) {
+            out.println("Книга с таким ID не найдена!");
+            return null;
+        }
+        return book;
     }
 
     public void deleteBook() {

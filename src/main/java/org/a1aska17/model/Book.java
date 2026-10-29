@@ -73,6 +73,10 @@ public class Book {
         this.updatedAtBook = LocalDateTime.now();
     }
 
+    public void setGenreBook(Genre genreBook) {
+        this.genreBook = genreBook;
+    }
+
     private String impressionBook;
     private int percentageReadBook;
     private final JsonBookRepository jsonBookRepository = new JsonBookRepository();

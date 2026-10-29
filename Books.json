@@ -19,13 +19,13 @@
   "authorBook" : "Стивен Кинг",
   "currentPageBook" : 0,
   "totalPageBook" : 797,
-  "genreBook" : "SCIENCE_FICTION",
-  "statusBook" : "PAUSE",
+  "genreBook" : "ADVENTURE",
+  "statusBook" : "READING",
   "startedAtBook" : null,
   "finishedAtBook" : null,
   "ratingBook" : 0,
   "createdAtBook" : "2026-10-26T16:46:09.4505749",
-  "updatedAtBook" : "2026-10-26T16:46:09.4505749",
+  "updatedAtBook" : "2026-10-29T12:02:22.993827",
   "impressionBook" : "",
   "percentageReadBook" : 0
 }, {
