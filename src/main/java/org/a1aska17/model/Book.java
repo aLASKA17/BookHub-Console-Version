@@ -4,6 +4,7 @@ import org.a1aska17.repository.JsonBookRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import static org.a1aska17.constant.BookHubConstant.*;
 
 public class Book {
     private int idBook;
@@ -13,6 +14,14 @@ public class Book {
     private int totalPageBook;
     private Genre genreBook;
     private Status statusBook;
+    private LocalDate startedAtBook;
+    private LocalDate finishedAtBook;
+    private int ratingBook;
+    private LocalDateTime createdAtBook;
+    private LocalDateTime updatedAtBook;
+    private String impressionBook;
+    private int percentageReadBook;
+    private final JsonBookRepository jsonBookRepository = new JsonBookRepository();
 
     public String getTitleBook() {
         return titleBook;
@@ -62,29 +71,34 @@ public class Book {
         return impressionBook;
     }
 
-    private LocalDate startedAtBook;
-    private LocalDate finishedAtBook;
-    private int ratingBook;
-    private LocalDateTime createdAtBook;
-    private LocalDateTime updatedAtBook;
-
     public void setStatusBook(Status statusBook) {
         this.statusBook = statusBook;
         this.updatedAtBook = LocalDateTime.now();
     }
 
-    public void setGenreBook(Genre genreBook) {
-        this.genreBook = genreBook;
+    public void setTotalPageBook(int totalPageBook) {
+        this.totalPageBook = totalPageBook;
+        this.updatedAtBook = LocalDateTime.now();
     }
 
-    private String impressionBook;
+    public void setRatingBook(int ratingBook) {
+        this.ratingBook = ratingBook;
+        this.updatedAtBook = LocalDateTime.now();
+    }
+
+    public void setImpressionBook(String impressionBook) {
+        this.impressionBook = impressionBook;
+        this.updatedAtBook = LocalDateTime.now();
+    }
+
+    public void setGenreBook(Genre genreBook) {
+        this.genreBook = genreBook;
+        this.updatedAtBook = LocalDateTime.now();
+    }
 
     public void setUpdatedAtBook(LocalDateTime updatedAtBook) {
         this.updatedAtBook = updatedAtBook;
     }
-
-    private int percentageReadBook;
-    private final JsonBookRepository jsonBookRepository = new JsonBookRepository();
 
     public void setIdBook(int idBook) {
         this.idBook = idBook;
@@ -108,6 +122,21 @@ public class Book {
         this.finishedAtBook = finishedAtBook;
     }
 
+    public void setCurrentPageBook(int currentPageBook) {
+        this.currentPageBook = currentPageBook;
+        this.updatedAtBook = LocalDateTime.now();
+    }
+
+    public void setAuthorBook(String authorBook) {
+        this.authorBook = authorBook;
+        this.updatedAtBook = LocalDateTime.now();
+    }
+
+    public void setTitleBook(String titleBook) {
+        this.titleBook = titleBook;
+        this.updatedAtBook = LocalDateTime.now();
+    }
+
     public Book(String titleBook, String authorBook, int totalPageBook, Genre genreBook) {
         this.idBook = generateId();
         this.titleBook = titleBook;
@@ -119,7 +148,7 @@ public class Book {
         this.startedAtBook = null;
         this.finishedAtBook = null;
         this.ratingBook = 0;
-        this.impressionBook = "";
+        this.impressionBook = "Отзыв не написан";
         this.percentageReadBook = getPercentageReadBook();
         this.createdAtBook = LocalDateTime.now();
         this.updatedAtBook = LocalDateTime.now();
@@ -131,18 +160,19 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Id книги = " + idBook +
-                ", Название книги = '" + titleBook + '\'' +
-                ", Автор книги = '" + authorBook + '\'' +
-                ", Текущая страница = " + currentPageBook +
-                ", Общее кол-во страниц = " + totalPageBook +
-                ", Процент прочтения книги = " + percentageReadBook + " %" +
-                ", Жанр книги = " + genreBook.getTitle() +
-                ", Статус книги = " + statusBook.getTitle() +
-                ", Дата начала чтения книги = " + startedAtBook +
-                ", Дата окончания чтения книги = " + finishedAtBook +
-                ", Рейтинг книги = " + ratingBook +
-                ", Отзыв о книги = " + impressionBook;
+        return  "-------------------------------------------------------------------------------------------------" +
+                "\n" + ID_BOOK + " = " + idBook + "\n" +
+                TITLE_BOOK + " = " + titleBook + "\n" +
+                AUTHOR_BOOK + " = " + authorBook + "\n" +
+                CURRENT_PAGE + " = " + currentPageBook + "\n" +
+                TOTAL_PAGE + " = " + totalPageBook + "\n" +
+                PRECENT_RAED_BOOK + " = " + percentageReadBook + " %" + "\n" +
+                GENRE + " = " + genreBook.getTitle() + "\n" +
+                STATUS + " = " + statusBook.getTitle() + "\n" +
+                DATA_START + " = " + startedAtBook + "\n" +
+                DATA_FINISH + " = " + finishedAtBook + "\n" +
+                RATING_BOOK + " = " + ratingBook + "\n" +
+                IMPRESSION_BOOK + " = " + impressionBook + "\n";
     }
 
     public int getPercentageReadBook() {
@@ -154,7 +184,7 @@ public class Book {
 
     public void updatePercentageBook(Book book) {
         if (book.currentPageBook > 0 && book.totalPageBook > 0) {
-            book.setPercentageReadBook(Math.round((float) book.currentPageBook / book.totalPageBook* 100));
+            book.setPercentageReadBook(Math.round((float) book.currentPageBook / book.totalPageBook * 100));
         }
     }
 }

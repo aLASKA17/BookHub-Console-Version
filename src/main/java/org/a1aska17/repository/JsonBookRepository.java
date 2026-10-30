@@ -10,10 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import static java.lang.System.out;
+import static org.a1aska17.constant.BookHubConstant.*;
 
 public class JsonBookRepository {
     private final ObjectMapper mapper = new ObjectMapper();
-    private final File file = new File("Books.json");
+    private final File file = new File(FILE_BOOKS);
 
     public void saveToJsonFile(List<Book> books) {
         try {

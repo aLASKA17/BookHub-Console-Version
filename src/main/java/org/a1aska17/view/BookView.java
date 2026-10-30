@@ -1,6 +1,7 @@
 package org.a1aska17.view;
 
 import org.a1aska17.controller.BookController;
+import static org.a1aska17.constant.BookHubConstant.*;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -30,20 +31,26 @@ public class BookView {
                     case 3: controllerUIMenuChange(); break;
                     case 4: bookController.deleteBook(); break;
                     case 5: exit(0); break;
-                    default: out.println("Такого пункта в меню!");
+                    default: out.println(NOT_FOUND_POINT);
                 }
             } catch (InputMismatchException ex) {
                 scanner.next();
-                out.println("Введите корректное значение!");
+                out.println(CORRECT_VALUE);
             }
         }
     }
 
     private void UIMenuChange() {
         out.println("___________________________________________________________________________");
-        out.println("1) Изменить статус книги");
-        out.println("2) Изменить жанр");
-        out.println("3) Вернуться в основное меню");
+        out.println("1) Изменить название книги");
+        out.println("2) Изменить автора книги");
+        out.println("3) Изменить статус книги");
+        out.println("4) Изменить жанр");
+        out.println("5) Изменить текущую страницу");
+        out.println("6) Изменить количество страниц в книге");
+        out.println("7) Изменить рейтинг книги");
+        out.println("8) Изменить отзыв о книги");
+        out.println("9) Вернуться в основное меню");
         out.print("Выберите пункт меню: ");
     }
 
@@ -53,14 +60,20 @@ public class BookView {
                UIMenuChange();
                int pointMenu = scanner.nextInt();
                switch (pointMenu) {
-                   case 1: bookController.changeStatus(); break;
-                   case 2: bookController.changeGenre(); break;
-                   case 3: controllerUIMenu(); break;
-                   default: out.println("Такого пункта в меню!");
+                   case 1: bookController.changeTitleBook(); break;
+                   case 2: bookController.changeAuthorBook(); break;
+                   case 3: bookController.changeStatus(); break;
+                   case 4: bookController.changeGenre(); break;
+                   case 5: bookController.changePage(1); break;
+                   case 6: bookController.changePage(0); break;
+                   case 7: bookController.changeRating(); break;
+                   case 8: bookController.changeImpressionBook(); break;
+                   case 9: controllerUIMenu(); break;
+                   default: out.println(NOT_FOUND_POINT);
                }
            } catch (InputMismatchException ex) {
                scanner.nextLine();
-               out.println("Введите корректное значение!");
+               out.println(CORRECT_VALUE);
            }
         }
     }
