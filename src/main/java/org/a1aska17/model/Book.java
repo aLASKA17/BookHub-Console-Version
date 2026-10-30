@@ -78,6 +78,11 @@ public class Book {
     }
 
     private String impressionBook;
+
+    public void setUpdatedAtBook(LocalDateTime updatedAtBook) {
+        this.updatedAtBook = updatedAtBook;
+    }
+
     private int percentageReadBook;
     private final JsonBookRepository jsonBookRepository = new JsonBookRepository();
 
@@ -94,6 +99,14 @@ public class Book {
     }
 
     public Book() {}
+
+    public void setStartedAtBook(LocalDate startedAtBook) {
+        this.startedAtBook = startedAtBook;
+    }
+
+    public void setFinishedAtBook(LocalDate finishedAtBook) {
+        this.finishedAtBook = finishedAtBook;
+    }
 
     public Book(String titleBook, String authorBook, int totalPageBook, Genre genreBook) {
         this.idBook = generateId();

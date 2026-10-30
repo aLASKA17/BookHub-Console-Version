@@ -5,12 +5,12 @@
   "currentPageBook" : 0,
   "totalPageBook" : 647,
   "genreBook" : "HORROR",
-  "statusBook" : "PAUSE",
-  "startedAtBook" : null,
+  "statusBook" : "READING",
+  "startedAtBook" : "2026-10-29",
   "finishedAtBook" : null,
   "ratingBook" : 0,
   "createdAtBook" : "2026-10-26T16:43:58.815512",
-  "updatedAtBook" : "2026-10-26T16:43:58.815512",
+  "updatedAtBook" : "2026-10-29T17:39:01.6219416",
   "impressionBook" : "",
   "percentageReadBook" : 0
 }, {

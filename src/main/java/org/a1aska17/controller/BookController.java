@@ -8,6 +8,8 @@ import org.a1aska17.model.GenreOrStatus;
 import org.a1aska17.model.Status;
 import org.a1aska17.repository.JsonBookRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -99,7 +101,14 @@ public class BookController {
         Status statusBook = chooseGenreOrStatus(Status.values(), "ID статуса");
         Book book = searchBookById(idBook);
         if (book != null) {
+            if (statusBook == Status.READING) {
+                book.setStartedAtBook(LocalDate.now());
+            }
+            if (statusBook == Status.RAED) {
+                book.setFinishedAtBook(LocalDate.now());
+            }
             book.setStatusBook(statusBook);
+            book.setUpdatedAtBook(LocalDateTime.now());
             jsonBookRepository.saveToJsonFile(books);
         }
     }
@@ -111,7 +120,18 @@ public class BookController {
         Book book = searchBookById(idBook);
         if (book != null) {
             book.setGenreBook(genreBook);
+            book.setUpdatedAtBook(LocalDateTime.now());
             jsonBookRepository.saveToJsonFile(books);
+        }
+    }
+
+    public void inputCurrentPage() {
+        displayBooks();
+        int idBook = inputBookId();
+        int countPage = inputPage();
+        Book book = searchBookById(idBook);
+        if (book != null) {
+
         }
     }
 
