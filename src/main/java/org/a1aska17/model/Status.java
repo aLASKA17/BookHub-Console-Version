@@ -8,7 +8,7 @@ public enum Status implements GenreOrStatus{
 
     private final String title;
     private final int id;
-    private static int countId = 1;
+    private static int countId = 0;
 
     public int getId() {
         return id;

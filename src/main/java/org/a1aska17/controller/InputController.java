@@ -15,12 +15,12 @@ import java.util.Scanner;
 import static java.lang.System.*;
 
 public class InputController {
-    private final CheckController checkController = new CheckController();
     private final Scanner scanner;
-    private final JsonBookRepository jsonBookRepository = new JsonBookRepository();
+    private final JsonBookRepository jsonBookRepository;
 
-    public InputController(Scanner scanner) {
+    public InputController(Scanner scanner, JsonBookRepository jsonBookRepository) {
         this.scanner = scanner;
+        this.jsonBookRepository = jsonBookRepository;
     }
 
     String inputString(String stringForInput) {
@@ -33,7 +33,7 @@ public class InputController {
         while (chooseId == 0) {
             try {
                 out.print("\nВведите " + stringForInput + ": ");
-                chooseId = checkController.checkValueExistsAsRange(scanner.nextInt(), values);
+                chooseId = InputValidator.checkValueExistsAsRange(scanner.nextInt(), values);
                 scanner.nextLine();
             } catch (InputMismatchException ex) {
                 out.println(ENTER_NUMBER);
@@ -55,7 +55,7 @@ public class InputController {
         while (countPageBook == 0) {
             try {
                 out.print("\nВведите " + COUNT_PAGE + ": ");
-                countPageBook = checkController.checkValueLessThanZero(scanner.nextInt());
+                countPageBook = InputValidator.checkValueLessThanZero(scanner.nextInt());
                 scanner.nextLine();
             } catch (InputMismatchException ex) {
                 out.println(ENTER_NUMBER);

@@ -1,7 +1,5 @@
 package org.a1aska17.model;
 
-import org.a1aska17.repository.JsonBookRepository;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import static org.a1aska17.constant.BookHubConstant.*;
@@ -21,7 +19,6 @@ public class Book {
     private LocalDateTime updatedAtBook;
     private String impressionBook;
     private int percentageReadBook;
-    private final JsonBookRepository jsonBookRepository = new JsonBookRepository();
 
     public String getTitleBook() {
         return titleBook;
@@ -104,10 +101,6 @@ public class Book {
         this.idBook = idBook;
     }
 
-    private int generateId() {
-        return jsonBookRepository.readFromJsonFile().size() + 1;
-    }
-
     public int getIdBook() {
         return idBook;
     }
@@ -137,8 +130,8 @@ public class Book {
         this.updatedAtBook = LocalDateTime.now();
     }
 
-    public Book(String titleBook, String authorBook, int totalPageBook, Genre genreBook) {
-        this.idBook = generateId();
+    public Book(int idBook, String titleBook, String authorBook, int totalPageBook, Genre genreBook) {
+        this.idBook = idBook;
         this.titleBook = titleBook;
         this.authorBook = authorBook;
         this.currentPageBook = 0;
@@ -149,7 +142,7 @@ public class Book {
         this.finishedAtBook = null;
         this.ratingBook = 0;
         this.impressionBook = "Отзыв не написан";
-        this.percentageReadBook = getPercentageReadBook();
+        this.percentageReadBook = 0;
         this.createdAtBook = LocalDateTime.now();
         this.updatedAtBook = LocalDateTime.now();
     }
@@ -173,12 +166,5 @@ public class Book {
                 DATA_FINISH + " = " + finishedAtBook + "\n" +
                 RATING_BOOK + " = " + ratingBook + "\n" +
                 IMPRESSION_BOOK + " = " + impressionBook + "\n";
-    }
-
-    public int getPercentageReadBook() {
-        if (currentPageBook > 0 && totalPageBook > 0) {
-            return Math.round((float) currentPageBook / totalPageBook * 100);
-        }
-        return 0;
     }
 }

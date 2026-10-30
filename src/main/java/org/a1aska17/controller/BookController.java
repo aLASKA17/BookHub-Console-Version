@@ -16,15 +16,25 @@ import java.util.function.Consumer;
 import static java.lang.System.*;
 
 public class BookController {
-    private final JsonBookRepository jsonBookRepository = new JsonBookRepository();
-    private final Scanner scanner = new Scanner(in);
+    private final JsonBookRepository jsonBookRepository;
+    private final InputController inputController;
+    private final Scanner scanner;
     private List<Book> books = new ArrayList<>();
-    private final InputController inputController = new InputController(scanner);
+
+    public BookController(JsonBookRepository jsonBookRepository, InputController inputController, Scanner scanner) {
+        this.jsonBookRepository = jsonBookRepository;
+        this.inputController = inputController;
+        this.scanner = scanner;
+    }
 
     private void updatePercentageBook(Book book) {
         if (book.getCurrentPageBook() > 0 && book.getTotalPageBook() > 0) {
             book.setPercentageReadBook(Math.round((float) book.getCurrentPageBook() / book.getTotalPageBook() * 100));
         }
+    }
+
+    private int generateId() {
+        return books.size()+1;
     }
 
     private void updateIdBook() {
@@ -107,7 +117,7 @@ public class BookController {
         int totalPage = inputController.inputPage();
         Genre genreBook = inputController.chooseGenreOrStatus(Genre.values(), ID_GENRE);
         books = jsonBookRepository.readFromJsonFile();
-        books.add(new Book(titleBook, authorBook, totalPage, genreBook));
+        books.add(new Book(generateId(), titleBook, authorBook, totalPage, genreBook));
         jsonBookRepository.saveToJsonFile(books);
     }
 

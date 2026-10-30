@@ -8,8 +8,14 @@ import java.util.Scanner;
 import static java.lang.System.*;
 
 public class BookView {
-    private final BookController bookController = new BookController();
-    private final Scanner scanner = new Scanner(in);
+    private final BookController bookController;
+    private final Scanner scanner;
+
+    public BookView(BookController bookController, Scanner scanner) {
+        this.bookController = bookController;
+        this.scanner = scanner;
+    }
+
     private void UIMenu() {
         out.println("_________________________________________________________________");
         out.println("1) Вывести список книг");
@@ -22,9 +28,10 @@ public class BookView {
 
     public void controllerUIMenu() {
         while (true) {
+            UIMenu();
             try {
-                UIMenu();
                 int pointMenu = scanner.nextInt();
+                scanner.nextLine();
                 switch (pointMenu) {
                     case 1: bookController.displayBooks(); break;
                     case 2: bookController.createAndAddBook(); break;
@@ -34,7 +41,7 @@ public class BookView {
                     default: out.println(NOT_FOUND_POINT);
                 }
             } catch (InputMismatchException ex) {
-                scanner.next();
+                scanner.nextLine();
                 out.println(CORRECT_VALUE);
             }
         }
@@ -59,6 +66,7 @@ public class BookView {
            try {
                UIMenuChange();
                int pointMenu = scanner.nextInt();
+               scanner.nextLine();
                switch (pointMenu) {
                    case 1: bookController.changeTitleBook(); break;
                    case 2: bookController.changeAuthorBook(); break;
@@ -68,7 +76,7 @@ public class BookView {
                    case 6: bookController.changePage(0); break;
                    case 7: bookController.changeRating(); break;
                    case 8: bookController.changeImpressionBook(); break;
-                   case 9: controllerUIMenu(); break;
+                   case 9: return;
                    default: out.println(NOT_FOUND_POINT);
                }
            } catch (InputMismatchException ex) {

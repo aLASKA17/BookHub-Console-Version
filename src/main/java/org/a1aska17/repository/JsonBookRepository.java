@@ -5,21 +5,28 @@ import org.a1aska17.model.Book;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.databind.SerializationFeature.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static java.lang.System.out;
-import static org.a1aska17.constant.BookHubConstant.*;
 
 public class JsonBookRepository {
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final File file = new File(FILE_BOOKS);
+    private final ObjectMapper mapper;
+    private final File file;
+
+    public JsonBookRepository(ObjectMapper mapper, File file) {
+        this.mapper = mapper;
+        this.file = file;
+    }
 
     public void saveToJsonFile(List<Book> books) {
         try {
             mapper.registerModule(new JavaTimeModule());
-            mapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            mapper.disable(WRITE_DATES_AS_TIMESTAMPS);
             mapper.writerWithDefaultPrettyPrinter().writeValue(file, books);
         } catch (IOException ex) {
             out.println("Error upon saving: " + ex);
@@ -33,7 +40,7 @@ public class JsonBookRepository {
                 return books;
             }
             mapper.registerModule(new JavaTimeModule());
-            mapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            mapper.disable(WRITE_DATES_AS_TIMESTAMPS);
             return mapper.readValue(file, new TypeReference<>() {});
         } catch (IOException ex) {
             out.println("Error upon reading: " + ex);

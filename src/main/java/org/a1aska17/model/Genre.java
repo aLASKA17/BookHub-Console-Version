@@ -61,7 +61,7 @@ public enum Genre implements GenreOrStatus{
 
     private final String title;
     private final int id;
-    private static int countId = 1;
+    private static int countId = 0;
 
     Genre(String title) {
         this.title = title;
