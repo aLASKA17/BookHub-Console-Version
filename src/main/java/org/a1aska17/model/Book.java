@@ -166,7 +166,7 @@ public class Book {
                 AUTHOR_BOOK + " = " + authorBook + "\n" +
                 CURRENT_PAGE + " = " + currentPageBook + "\n" +
                 TOTAL_PAGE + " = " + totalPageBook + "\n" +
-                PRECENT_RAED_BOOK + " = " + percentageReadBook + " %" + "\n" +
+                PRECENT_READ_BOOK + " = " + percentageReadBook + " %" + "\n" +
                 GENRE + " = " + genreBook.getTitle() + "\n" +
                 STATUS + " = " + statusBook.getTitle() + "\n" +
                 DATA_START + " = " + startedAtBook + "\n" +
@@ -180,11 +180,5 @@ public class Book {
             return Math.round((float) currentPageBook / totalPageBook * 100);
         }
         return 0;
-    }
-
-    public void updatePercentageBook(Book book) {
-        if (book.currentPageBook > 0 && book.totalPageBook > 0) {
-            book.setPercentageReadBook(Math.round((float) book.currentPageBook / book.totalPageBook * 100));
-        }
     }
 }

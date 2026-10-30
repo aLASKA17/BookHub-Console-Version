@@ -16,8 +16,12 @@ import static java.lang.System.*;
 
 public class InputController {
     private final CheckController checkController = new CheckController();
-    private final Scanner scanner = new Scanner(in);
+    private final Scanner scanner;
     private final JsonBookRepository jsonBookRepository = new JsonBookRepository();
+
+    public InputController(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
     String inputString(String stringForInput) {
         out.print("\nВведите " + stringForInput + ": ");
@@ -25,15 +29,15 @@ public class InputController {
     }
 
     int inputNumber(int values, String stringForInput) {
-        int chooseId = -1;
-        while (chooseId == -1) {
+        int chooseId = 0;
+        while (chooseId == 0) {
             try {
                 out.print("\nВведите " + stringForInput + ": ");
                 chooseId = checkController.checkValueExistsAsRange(scanner.nextInt(), values);
                 scanner.nextLine();
             } catch (InputMismatchException ex) {
                 out.println(ENTER_NUMBER);
-                scanner.next();
+                scanner.nextLine();
             } catch (ExistsAsARangeException ex) {
                 out.println(EXISTS_AS_A_RANGE);
             }

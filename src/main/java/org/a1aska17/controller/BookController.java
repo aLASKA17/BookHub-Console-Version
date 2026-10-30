@@ -7,11 +7,11 @@ import org.a1aska17.repository.JsonBookRepository;
 
 import static org.a1aska17.constant.BookHubConstant.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 import static java.lang.System.*;
 
@@ -19,10 +19,15 @@ public class BookController {
     private final JsonBookRepository jsonBookRepository = new JsonBookRepository();
     private final Scanner scanner = new Scanner(in);
     private List<Book> books = new ArrayList<>();
-    private final InputController inputController = new InputController();
+    private final InputController inputController = new InputController(scanner);
+
+    private void updatePercentageBook(Book book) {
+        if (book.getCurrentPageBook() > 0 && book.getTotalPageBook() > 0) {
+            book.setPercentageReadBook(Math.round((float) book.getCurrentPageBook() / book.getTotalPageBook() * 100));
+        }
+    }
 
     private void updateIdBook() {
-        books = jsonBookRepository.readFromJsonFile();
         for (int i = 1; i < books.size() + 1; i++) {
             books.get(i - 1).setIdBook(i);
         }
@@ -42,105 +47,56 @@ public class BookController {
     }
 
     public void changeStatus() {
-        displayBooks();
-        int idBook = inputController.inputBookId();
-        Status statusBook = inputController.chooseGenreOrStatus(Status.values(), ID_STATUS);
-        Book book = searchBookById(idBook);
-        if (book != null) {
-            if (statusBook == Status.READING) {
-                book.setStartedAtBook(LocalDate.now());
-            }
-            if (statusBook == Status.RAED) {
-                book.setFinishedAtBook(LocalDate.now());
-            }
-            book.setStatusBook(statusBook);
-            book.setUpdatedAtBook(LocalDateTime.now());
-            jsonBookRepository.saveToJsonFile(books);
-        }
+        updateBook(book -> book.setStatusBook(inputController.chooseGenreOrStatus(Status.values(), ID_STATUS)));
     }
 
     public void changeGenre() {
-        displayBooks();
-        int idBook = inputController.inputBookId();
-        Genre genreBook = inputController.chooseGenreOrStatus(Genre.values(), ID_GENRE);
-        Book book = searchBookById(idBook);
-        if (book != null) {
-            book.setGenreBook(genreBook);
-            book.setUpdatedAtBook(LocalDateTime.now());
-            jsonBookRepository.saveToJsonFile(books);
-        }
+        updateBook(book -> book.setGenreBook(inputController.chooseGenreOrStatus(Genre.values(), ID_GENRE)));
     }
 
     public void changeTitleBook() {
-        displayBooks();
-        int idBook = inputController.inputBookId();
-        String titleBook = inputController.inputString(TITLE_BOOK);
-        Book book = searchBookById(idBook);
-        if (book != null) {
-            book.setTitleBook(titleBook);
-            book.setUpdatedAtBook(LocalDateTime.now());
-            jsonBookRepository.saveToJsonFile(books);
-        }
+        updateBook(book -> book.setTitleBook(inputController.inputString(TITLE_BOOK)));
     }
 
     public void changeRating() {
-        displayBooks();
-        int idBook = inputController.inputBookId();
-        int ratingBook = inputController.inputNumber(MAX_RATING_FOR_BOOK, RATING_BOOK);
-        Book book = searchBookById(idBook);
-        if (book != null) {
-            book.setRatingBook(ratingBook);
-            book.setUpdatedAtBook(LocalDateTime.now());
-            jsonBookRepository.saveToJsonFile(books);
-        }
+        updateBook(book -> book.setRatingBook(inputController.inputNumber(MAX_RATING_FOR_BOOK, RATING_BOOK)));
     }
 
     public void changeAuthorBook() {
+        updateBook(book -> book.setAuthorBook(inputController.inputString(AUTHOR_BOOK)));
+    }
+
+    private void updateBook(Consumer<Book> updaterForBook) {
         displayBooks();
         int idBook = inputController.inputBookId();
-        String authorBook = inputController.inputString(AUTHOR_BOOK);
         Book book = searchBookById(idBook);
-        if (book != null) {
-            book.setAuthorBook(authorBook);
-            book.setUpdatedAtBook(LocalDateTime.now());
-            jsonBookRepository.saveToJsonFile(books);
-        }
+        if (book == null) return;
+        updaterForBook.accept(book);
+        book.setUpdatedAtBook(LocalDateTime.now());
+        jsonBookRepository.saveToJsonFile(books);
     }
 
     public void changeImpressionBook() {
-        displayBooks();
-        int idBook = inputController.inputBookId();
-        String impressionBook = inputController.inputString(IMPRESSION_BOOK);
-        Book book = searchBookById(idBook);
-        if (book != null) {
-            book.setImpressionBook(impressionBook);
-            book.setUpdatedAtBook(LocalDateTime.now());
-            jsonBookRepository.saveToJsonFile(books);
-        }
+        updateBook(book -> book.setImpressionBook(inputController.inputString(IMPRESSION_BOOK)));
     }
 
     public void changePage(int value) {  // 0 - total, 1 - current TODO: Надо подумать как сделать более читаемо и наглядно
-        displayBooks();
-        int idBook = inputController.inputBookId();
-        int countPage = inputController.inputPage();
-        Book book = searchBookById(idBook);
-        if (book != null) {
-            if (value == 0) {
-                book.setTotalPageBook(countPage);
+        updateBook(book -> {
+            if ((value == 0)) {
+                book.setTotalPageBook(inputController.inputPage());
             } else {
-                book.setCurrentPageBook(countPage);
+                book.setCurrentPageBook(inputController.inputPage());
             }
-            book.updatePercentageBook(book);
-            book.setUpdatedAtBook(LocalDateTime.now());
-            jsonBookRepository.saveToJsonFile(books);
-        }
+        });
     }
 
     public void deleteBook() {
         displayBooks();
-        books.remove(inputController.inputBookId() - 1);
+        int idBook = inputController.inputBookId();
+        Book book = searchBookById(idBook);
+        if (book == null) return;
+        books.remove(book);
         updateIdBook();
-        jsonBookRepository.saveToJsonFile(books);
     }
 
     public void createAndAddBook() {
@@ -161,7 +117,7 @@ public class BookController {
             out.println(EMPTY_BOOKS);
         } else {
             books.forEach(book -> {
-                book.updatePercentageBook(book);
+                updatePercentageBook(book);
                 out.println(book);
             });
         }

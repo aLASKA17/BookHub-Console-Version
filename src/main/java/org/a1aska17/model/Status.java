@@ -3,7 +3,7 @@ package org.a1aska17.model;
 public enum Status implements GenreOrStatus{
     PLANNED ("В планах"),
     READING ("Читаю"),
-    RAED ("Прочитана"),
+    READ ("Прочитана"),
     PAUSE ("Отложена");
 
     private final String title;
